@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Install everything required by this Hyprland config on Arch Linux.
+# Generic version - no GPU-vendor packages. For NVIDIA, run install-nvidia.sh.
 # Run as your normal user (not root). Sudo will be requested when needed.
 
 set -euo pipefail
@@ -29,11 +30,10 @@ PACMAN_PKGS=(
     qt5-wayland
     qt6-wayland
 
-    # Bar / notifications / launcher / terminal / file manager
+    # Bar / notifications / launcher / file manager
     waybar
     swaync
     wofi
-    wezterm
     thunar
 
     # Audio / brightness / media keys
@@ -47,13 +47,6 @@ PACMAN_PKGS=(
 
     # Apps referenced by keybinds
     firefox
-
-    # NVIDIA stack (matches env vars in hyprland.conf)
-    nvidia-dkms
-    nvidia-utils
-    libva-nvidia-driver
-    egl-wayland
-    linux-headers
 
     # Misc utilities used by config / scripts
     polkit-gnome
@@ -111,10 +104,12 @@ systemctl --user enable --now pipewire pipewire-pulse wireplumber || true
 
 cat <<'EOF'
 
-Done.
+Done (generic install).
+
+If this machine has an NVIDIA GPU, also run:
+    ./install-nvidia.sh
 
 Next steps:
-  * Reboot so the NVIDIA DKMS module is built into the running kernel.
   * Drop your wallpaper at ~/Pictures/arch-linux_upscaled.png (or edit hyprpaper.conf).
   * Make sure ~/.config/theme/colors-hyprland.conf exists (sourced by hyprland.conf).
   * Log in via a Wayland session and start Hyprland.
